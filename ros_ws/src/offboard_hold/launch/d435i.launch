@@ -1,0 +1,23 @@
+<launch>
+  <include file="$(find offboard_hold)/launch/rs_camera.launch">
+    <arg name="json_file_path" value="/home/nv/YOPO-C5/Controller/src/offboard_hold/launch/d435i.json"/>
+    <arg name="filters"        value="decimation,disparity,spatial,temporal,disparity"/>
+    <arg name="depth_fps"      value="15"/>
+    <arg name="infra_fps"      value="15"/>
+    <arg name="enable_sync"    value="true"/>
+  </include>
+
+  <!-- Decimation Filter -->
+  <param name="camera/realsense2_camera/decimation_filter/filter_magnitude"   type="int"    value="2"/>
+
+  <!-- Spatial Filter -->
+  <param name="camera/realsense2_camera/spatial_filter/filter_magnitude"      type="int"    value="2"/>
+  <param name="camera/realsense2_camera/spatial_filter/filter_smooth_alpha"   type="double" value="0.5"/>
+  <param name="camera/realsense2_camera/spatial_filter/filter_smooth_delta"   type="double" value="20.0"/>
+  <param name="camera/realsense2_camera/spatial_filter/holes_fill"            type="int"    value="0"/>
+
+  <!-- Temporal Filter -->
+  <param name="camera/realsense2_camera/temporal_filter/filter_smooth_alpha"  type="double" value="0.43"/>
+  <param name="camera/realsense2_camera/temporal_filter/filter_smooth_delta"  type="double" value="27.0"/>
+  <param name="camera/realsense2_camera/temporal_filter/holes_fill"           type="int"    value="3"/>
+</launch>

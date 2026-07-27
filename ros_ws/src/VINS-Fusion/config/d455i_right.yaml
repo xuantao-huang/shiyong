@@ -1,0 +1,19 @@
+%YAML:1.0
+---
+model_type: PINHOLE
+camera_name: camera
+image_width: 640
+image_height: 480
+distortion_parameters:
+   k1: 0.0
+   k2: 0.0
+   p1: 0.0
+   p2: 0.0
+# D455 infra2 (right) intrinsics at 640x480
+# D455 stereo baseline ~95mm (vs D435i ~50mm)
+# Source: rectified stereo — same intrinsic matrix as infra1 (from camera_info)
+projection_parameters:
+   fx: 395.6800842285156
+   fy: 395.6800842285156
+   cx: 324.0017395019531
+   cy: 237.6351318359375

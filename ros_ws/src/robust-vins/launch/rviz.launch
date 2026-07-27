@@ -1,0 +1,7 @@
+<launch>
+  <arg name="calib_file" default="$(find far_vins)/param/calib/euroc_stereo.yaml"/>
+
+  <!-- RVIZ -->
+  <node name="far_rviz" pkg="rviz" type="rviz" args=" -d $(find far_vins)/param/rviz/vins.rviz" />
+
+</launch>

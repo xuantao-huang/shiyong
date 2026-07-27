@@ -1,0 +1,94 @@
+# YOPO C5 camera-IMU calibration for far_vins (SchurVINS) — RealSense D455
+# Camera: RealSense D455 infrared stereo, 640x480, image_rect_raw (undistorted)
+# IMU:    PX4 BMI055 via /mavros/imu/data
+#
+# D455 vs D435i 主要差异:
+#   stereo baseline: D455 ~95mm  vs  D435i ~50mm
+#   最小测距:        D455  0.6m  vs  D435i  0.1~0.3m
+#   IMU:             两者均为 BMI055，噪声参数一致
+#
+# TODO (首次使用前必须完成):
+#   外参 T_B_C: 使用 Kalibr 重新标定 (D455 物理尺寸与 D435i 不同，挂载位置偏移不同)
+#   参考命令: kalibr_calibrate_imu_camera --bag calib.bag \
+#              --cam calib_cam.yaml --imu calib_imu.yaml --target aprilgrid.yaml
+#   在完成 Kalibr 标定前，本文件使用 D435i 的 T_B_C 作为初始值 (仅供调试，不保证精度)
+
+label: Kalibr
+id: yopo_c5_d455_640x480
+cameras:
+- camera:
+    label: cam0
+    id: yopo_c5_d455_cam0
+    line-delay-nanoseconds: 0
+    image_height: 480
+    image_width: 640
+    type: pinhole
+    intrinsics:
+      cols: 1
+      rows: 4
+      # D455 factory intrinsics at 640x480 (from rostopic echo /camera/infra1/camera_info -n 1)
+      data: [395.6800842285156, 395.6800842285156, 324.0017395019531, 237.6351318359375]
+    distortion:
+      type: radial-tangential
+      parameters:
+        cols: 1
+        rows: 4
+        # Zero distortion — image_rect_raw is already undistorted by RealSense SDK
+        data: [0.0, 0.0, 0.0, 0.0]
+  T_B_C:
+    cols: 4
+    rows: 4
+    # TODO: 用 Kalibr 重新标定后替换 (D455 基线 ~95mm，当前为 D435i 值)
+    data: [-0.01667710230546453, -0.005752374038511693, 0.9998443801170342, 0.06620339268865669,
+           -0.9998106445226181,   0.01012460048650078, -0.016618290052160232, 0.007123700286756258,
+           -0.010027430277097515,-0.9999321990304701, -0.0059201337930948365, -0.02355844739372723,
+            0.0, 0.0, 0.0, 1.0]
+- camera:
+    label: cam1
+    id: yopo_c5_d455_cam1
+    line-delay-nanoseconds: 0
+    image_height: 480
+    image_width: 640
+    type: pinhole
+    intrinsics:
+      cols: 1
+      rows: 4
+      # D455 factory intrinsics at 640x480 — rectified stereo, same as cam0
+      data: [395.6800842285156, 395.6800842285156, 324.0017395019531, 237.6351318359375]
+    distortion:
+      type: radial-tangential
+      parameters:
+        cols: 1
+        rows: 4
+        data: [0.0, 0.0, 0.0, 0.0]
+  T_B_C:
+    cols: 4
+    rows: 4
+    # TODO: 用 Kalibr 重新标定后替换 (D455 基线 ~95mm，当前为 D435i 值)
+    data: [-0.016564569977563108, -0.004361460667099066, 0.9998532855785933, 0.06536428229221496,
+           -0.9998122500542875,    0.010127374126983793,-0.0165197135167436, -0.04298394148842852,
+           -0.010053838214413401, -0.9999392051290625, -0.004528397400511048, -0.024120122747162624,
+            0.0, 0.0, 0.0, 1.0]
+
+imu_params:
+  # TODO: 若 D455 时延与 D435i 不同，用 Kalibr 重新标定后更新 delay_imu_cam
+  delay_imu_cam: 0.0109
+  max_imu_delta_t: 0.01
+  acc_max: 176.0
+  omega_max: 17.0
+  # D455 BMI055 噪声参数 (与 D435i 相同)
+  sigma_acc_c: 0.1
+  sigma_omega_c: 0.01
+  sigma_omega_bias_c: 0.0001
+  sigma_acc_bias_c: 0.001
+  sigma_integration: 0.0
+  g: 9.805
+  imu_rate: 200
+
+imu_initialization:
+  velocity: [0.0, 0.0, 0.0]
+  omega_bias: [0.0, 0.0, 0.0]
+  acc_bias: [0.0, 0.0, 0.0]
+  velocity_sigma: 2.0
+  omega_bias_sigma: 0.01
+  acc_bias_sigma: 0.1

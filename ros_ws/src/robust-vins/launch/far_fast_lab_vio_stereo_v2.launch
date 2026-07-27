@@ -1,0 +1,28 @@
+<!-- Launch File for running svo with ceres backend from bag-file -->
+<launch>
+  <arg name="calib_file" default="$(find far_vins)/param/calib/fast_lab_v2.yaml"/>
+
+  <!-- VIO node -->
+  <node pkg="far_vins" type="FAR_vio" name="far_vins_node" clear_params="true" output="screen" args="--v=0">
+
+    <remap from="~/far_imu_propagation" to="/vins_estimator/imu_propagate" />
+    <!-- Camera topic to subscribe to -->
+    <param name="cam0_topic" value="/infra_cam/infra1/image_rect_raw" type="str" />
+    <param name="cam1_topic" value="/infra_cam/infra2/image_rect_raw" type="str" />
+	
+    <!-- Imu topic to subscribe to -->
+    <param name="imu_topic" value="/mavros/imu/data" type="str" />
+
+    <!-- Camera calibration file -->
+    <param name="calib_file" value="$(arg calib_file)" />
+
+    <!--Parameters-->
+    <rosparam file="$(find far_vins)/param/vio_stereo.yaml" />
+    <param name='runlc' value='false' />
+
+  </node>
+
+  <!-- RVIZ -->
+  <!-- <node name="vis" pkg="rviz" type="rviz" args=" -d $(find far_vins)/rviz_config_vio.rviz" /> -->
+
+</launch>

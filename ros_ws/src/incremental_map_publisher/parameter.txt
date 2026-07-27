@@ -1,0 +1,4 @@
+map_size_x_meters: 30
+map_size_y_meters: 30
+map_size_z_meters: 30
+resolution:        0.1

@@ -1,0 +1,15 @@
+<launch>
+  <!-- VINS-Fusion stereo-inertial odometry for RealSense D435i + PX4 -->
+  <!-- IMU:    /mavros/imu/data_raw                                    -->
+  <!-- Image0: /camera/infra1/image_rect_raw                           -->
+  <!-- Image1: /camera/infra2/image_rect_raw                           -->
+  <!-- Output: /vins/imu_propagate  (nav_msgs/Odometry)                -->
+
+  <node name="vins" pkg="vins" type="vins_node" output="screen"
+        args="$(find vins)/../config/d435i_yopo.yaml"/>
+
+  <!-- loop_fusion disabled by default — enable if you need global map -->
+  <!-- <node name="loop_fusion" pkg="loop_fusion" type="loop_fusion_node"
+        args="$(find vins)/../config/d435i_yopo.yaml" output="screen"/> -->
+
+</launch>

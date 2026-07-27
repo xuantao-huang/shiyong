@@ -1,0 +1,30 @@
+communication_state_topic:  "/rc_state"
+point_cloud_topic:  "/cloud_registered"
+odom_topic:         "/Odometry"
+
+map_size_x_meters: 30
+map_size_y_meters: 30
+map_size_z_meters: 30
+resolution:        0.1
+
+visualization_map_boundaries_freq: 10
+
+visualization_map_boundaries_color_r:   0.8
+visualization_map_boundaries_color_g:   0.8
+visualization_map_boundaries_color_b:   0.8
+visualization_map_boundaries_color_a:   0.5
+visualization_map_boundaries_line_size: 0.2
+
+
+limit_z_height: 2.5
+limit_z_low: 0.2
+
+debug:
+  visualization_map_points_en:    false
+  visualization_communication_points_en: false
+
+
+communication:
+  grid_PC_vec_pub_freq:     10.0
+  bandwidth_kB_per_second:  150.0
+  maximize_bandwidth_usage: true

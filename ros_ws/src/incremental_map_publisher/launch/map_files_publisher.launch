@@ -1,0 +1,14 @@
+<launch>
+	<arg name="rviz" default="true" />
+
+	<rosparam command="load" file="$(find incremental_map_publisher)/config/rolling_map.yaml" />
+
+	<param name="max_one_pc_size" type="int" value="10000" />
+	<param name="pc_pub_freq" type="int" value="10" />
+	<node pkg="incremental_map_publisher" type="map_files_publisher" name="map_files_publisher" output="screen" /> 
+
+	<group if="$(arg rviz)">
+	    <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find incremental_map_publisher)/rviz_cfg/rviz.rviz" />
+	</group>
+
+</launch>

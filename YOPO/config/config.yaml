@@ -1,0 +1,77 @@
+# 多航点导航配置
+# 格式: [x, y, z, time(可选)]
+#   x, y, z   - 世界坐标系下的目标位置 (m)
+#   time      - 到达后等待时间 (秒), 0 表示不停留
+#
+# 最少只需提供 [x, y, z]; time 默认为 0
+
+points:
+  - [2.0,  1.5,  0.8,  3]
+  - [4.0,  -1.5,  0.8,  3]
+  - [0.0,  0.0,  0.8,  3]
+
+auto_planning: 1              # 1=起飞后自动开始导航, 0=手动C触发
+auto_landing: 1               # 1=到达最后航点后自动降落, 0=手动触发
+# ============================================================
+# 重要: 测试时的飞行速度 (可修改)
+velocity: 2
+
+# 重要: 训练时的最大速度和加速度
+# 并非测试时的实际值, 请确保测试与训练一致, 参考 ../policy/primitive.py
+vel_max_train: 6.0
+acc_max_train: 6.0
+
+# 重要: 单位速度下的代价权重 (可在 tensorboard 中可视化)
+wg: 0.15   # 引导代价     (接近目标)
+ws: 10.0   # 平滑代价     (减小 jerk)
+wa: 1.0    # 加速度代价   (减小加速度)
+wc: 1.0    # 碰撞代价     (远离障碍物)
+
+# 数据集: image_size = primitive_num × downsampling_factor (ResNet-18 时 ×32)
+dataset_path: "../dataset"
+image_height: 96
+image_width: 160
+# LiDAR 物理视场角 (Livox MID-360) — 需与推理侧 lidar_elev_min/max_deg 一致
+lidar_elev_min_deg: -7.0
+lidar_elev_max_deg: 52.0
+lidar_max_dist: 20.0
+
+# 轨迹与运动基元参数 (注: traj_time = 2 * radio / vel_max) (可在 rviz 中可视化)
+horizon_num: 5
+vertical_num: 3
+horizon_camera_fov: 90.0
+vertical_camera_fov: 60.0
+pitch_bias_deg: 22.5
+horizon_anchor_fov: 30.0
+vertical_anchor_fov: 30.0
+radio_range: 3   # 规划范围: 2 * radio_range
+radio_num: 1        # 当前仅支持 1
+
+# 安全惩罚参数
+d0: 1.2
+r: 0.6
+
+# 单位状态采样分布 (可通过 'python ./policy/yopo_dataset.py' 可视化)
+vx_mean_unit: 0.4
+vy_mean_unit: 0.0
+vz_mean_unit: 0.0
+vx_std_unit: 2.0
+vy_std_unit: 0.45
+vz_std_unit: 0.3
+ax_mean_unit: 0.0
+ay_mean_unit: 0.0
+az_mean_unit: 0.0
+ax_std_unit: 0.5
+ay_std_unit: 0.5
+az_std_unit: 0.3
+goal_pitch_std: 10.0  # goal_length 截断到 2 * radio_range; 10% 概率落在 [0, 2 * radio_range]
+goal_yaw_std: 20.0
+
+# 扩展地图避免轨迹越界 (尤其是 z 轴), 防止将地图外的天空误判为障碍物
+map_expand_min: [0, 0, 0.2]
+map_expand_max: [0, 0, 6.0]
+
+# 虚拟天花板 — 在送入网络前的深度图上叠加世界系水平面, 约束爬升
+virtual_ceiling_enable: true
+virtual_ceiling_z: 2.0        # 世界系绝对高度, 单位 m (按起飞场地实际地面 z 调整)
+

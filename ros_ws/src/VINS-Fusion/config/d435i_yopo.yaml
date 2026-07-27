@@ -1,0 +1,78 @@
+%YAML:1.0
+
+#common parameters
+#support: 1 imu 1 cam; 1 imu 2 cam: 2 cam;
+imu: 1
+num_of_cam: 2
+
+imu_topic: "/mavros/imu/data_raw"
+image0_topic: "/camera/infra1/image_rect_raw"
+image1_topic: "/camera/infra2/image_rect_raw"
+
+output_path: "/home/nv/YOPO-C5/ros_ws/vins_output"
+
+cam0_calib: "d435i_left.yaml"
+cam1_calib: "d435i_right.yaml"
+image_width: 640
+image_height: 480
+
+# Extrinsic parameter between IMU and Camera.
+# Calibrated with kalibr on this machine (vins_calib_output/camera_imu_calibration.yaml)
+estimate_extrinsic: 1   # 1: use initial guess, optimize online
+                        # 0: trust values below exactly
+
+body_T_cam0: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ -5.0866799990120004e-02,  6.5770350597926852e-02,
+            9.9653742009068136e-01, -9.5108917640681837e-06,
+           -9.9870321370702053e-01, -5.4597775920013358e-03,
+           -5.0617010578611558e-02,  1.0093996226724546e-02,
+            2.1117741438276775e-03, -9.9781984937706658e-01,
+            6.5962781923549763e-02, -4.9458858153629643e-03,
+            0., 0., 0., 1. ]
+
+body_T_cam1: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ -4.9889233832242086e-02,  6.6087911560913912e-02,
+            9.9656582938266014e-01, -2.3042228248436655e-03,
+           -9.9875082420835426e-01, -6.1012820154213721e-03,
+           -4.9594006703448663e-02, -1.9488926570187078e-02,
+            2.8027648430268173e-03, -9.9779515047091982e-01,
+            6.6309744426815143e-02, -4.9965731222319622e-03,
+            0., 0., 0., 1. ]
+
+#Multiple thread support
+multiple_thread: 1
+
+#feature tracker parameters
+max_cnt: 150            # max feature number in feature tracking
+min_dist: 30            # min distance between two features
+freq: 10                # frequence (Hz) of publish tracking result. 0 = same as raw image
+F_threshold: 1.0        # ransac threshold (pixel)
+show_track: 1           # publish tracking image as topic
+flow_back: 1            # forward-backward optical flow for improved accuracy
+
+#optimization parameters
+max_solver_time: 0.04  # max solver iteration time (s)
+max_num_iterations: 8   # max solver iterations
+keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
+
+#imu parameters — D435i built-in BMI055
+acc_n: 0.1          # accelerometer noise std dev
+gyr_n: 0.01         # gyroscope noise std dev
+acc_w: 0.001        # accelerometer bias random walk std dev
+gyr_w: 0.0001       # gyroscope bias random walk std dev
+g_norm: 9.805       # gravity magnitude (m/s^2)
+
+#unsynchronization parameters
+estimate_td: 1                      # online estimate time offset camera-IMU
+td: -1.0903991573561232e-02         # initial value from kalibr calibration (s)
+
+#loop closure parameters
+load_previous_pose_graph: 0
+pose_graph_save_path: "/home/nv/YOPO-C5/ros_ws/vins_output/pose_graph/"
+save_image: 0                       # disabled to save storage
