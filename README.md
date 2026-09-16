@@ -1,22 +1,29 @@
+# Diff-YOPO v1.1.0
+
 ## 概述
 
-Diff-YOPO 是在天津大学开源端到端规划器 YOPO（You Only Plan Once，IEEE RA-L 2024）基础上，针对 非凸-α 平台深度优化的自主飞行规划方案。
+**Diff-YOPO** 是为**微分智飞**公司旗下教育无人机子品牌**非凸空间**适配的导航避障算法。Diff-YOPO 是在天津大学开源端到端规划器 YOPO（You Only Plan Once，IEEE RA-L 2024）基础上，针对 非凸-α 平台深度优化的自主飞行规划方案。
 
 ## 使用步骤
 
 ### 1. 下载源码并编译:
 
 ```
-git clone https://gitee.com/DifferentialRobotics/Diff-YOPO.git
+git clone --branch v1.1.0  https://gitee.com/DifferentialRobotics/Diff-YOPO.git
 ```
 
-### 2.编译代码
+### 2. 编译代码
+
   ```
     cd ~/Diff-YOPO/ros_ws
     catkin_make
   ```
 
 ### 3. 导航飞行
+
+  ```
+    ./sh_files/run_all.sh
+  ```
 
 ## 致谢与声明
 本项目在开发过程中参考并使用了以下开源项目：
