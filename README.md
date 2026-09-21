@@ -1,4 +1,4 @@
-# Diff-YOPO v1.1.0
+# Diff-YOPO v1.1.1
 
 ## 概述
 
@@ -9,7 +9,7 @@
 ### 1. 下载源码并编译:
 
 ```
-git clone --branch v1.1.0  https://gitee.com/DifferentialRobotics/Diff-YOPO.git
+git clone --branch v1.1.1  https://gitee.com/DifferentialRobotics/Diff-YOPO.git
 ```
 
 ### 2. 编译代码
