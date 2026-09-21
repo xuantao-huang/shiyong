@@ -852,8 +852,8 @@ if __name__ == "__main__":
                 # 训练值 90°，保证障碍物感知尺度与训练一致（安全距离正确）
                 # 如需更宽覆盖可调大，但会导致障碍物像素变小，安全距离估计系统性偏远
                 'lidar_persp_hfov_deg': 90.0,
-                # ---- 虚拟天花板 ----
-                'virtual_ceiling_enable': True,
-                'virtual_ceiling_z': 2.6,       # 世界系绝对高度(m)；仿真起飞 z≈0，2.0m 合适
+                # ---- 虚拟天花板（生效值由 config/config.yaml 控制）----
+                'virtual_ceiling_enable': cfg.get('virtual_ceiling_enable', True),
+                'virtual_ceiling_z': cfg.get('virtual_ceiling_z', 2.6),
                 }
     YopoNet(settings, weight)

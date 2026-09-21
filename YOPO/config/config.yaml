@@ -73,5 +73,5 @@ map_expand_max: [0, 0, 6.0]
 
 # 虚拟天花板 — 在送入网络前的深度图上叠加世界系水平面, 约束爬升
 virtual_ceiling_enable: true
-virtual_ceiling_z: 2.0        # 世界系绝对高度, 单位 m (按起飞场地实际地面 z 调整)
+virtual_ceiling_z: 2.6        # 世界系绝对高度, 单位 m (按起飞场地实际地面 z 调整)
 
