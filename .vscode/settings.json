@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "C:\\Users\\Huang\\.kendryte\\k230_canmv_stubs\\a4c157574753cecb79c6f8007b78f930937b037b"
+    ],
+    "cmake.sourceDirectory": "F:/jiqi/Diff-YOPO/Simulator/src",
+    "python.analysis.stubPath": "C:\\Users\\Huang\\.kendryte\\k230_canmv_pylance\\4493b1e261b6d7de\\typings"
+}
